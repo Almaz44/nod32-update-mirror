@@ -57,17 +57,17 @@ for arg in "$@"; do
   esac;
 done;
 
-# Check user id
-if [[ "$(id -u)" -eq 0 ]]; then
-  if [[ "$NOD32MIRROR_FORCE_YES" -ne 1 ]]; then
-    ui_message 'error' "$(ui_style 'Please do not run this script as root' 'red reverse')";
-    while true; do
-      echo -en "[Question] "; read -e -p "Do you want to continue? [y|n] " -i "n" yn;
-      case $yn in
-        [Nn]*) exit 1;;
-        [Yy]*) break;;
-        *)     ui_message 'error' 'Please answer (y)es or (n)o';;
-      esac;
-    done;
-  fi;
-fi;
+## Check user id
+#if [[ "$(id -u)" -eq 0 ]]; then
+#  if [[ "$NOD32MIRROR_FORCE_YES" -ne 1 ]]; then
+#    ui_message 'error' "$(ui_style 'Please do not run this script as root' 'red reverse')";
+#    while true; do
+#      echo -en "[Question] "; read -e -p "Do you want to continue? [y|n] " -i "n" yn;
+#      case $yn in
+#        [Nn]*) exit 1;;
+#        [Yy]*) break;;
+#        *)     ui_message 'error' 'Please answer (y)es or (n)o';;
+#      esac;
+#    done;
+#  fi;
+#fi;

@@ -1,0 +1,10 @@
+version: '2'
+
+services:
+  configs:
+    #image: tarampampam/nod32-update-mirror:latest
+    container_name: nod32mirror-crontab
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: /usr/sbin/cron -f -L 15
