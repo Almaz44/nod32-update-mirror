@@ -23,22 +23,31 @@ RUN \
 RUN curl -V && wget -V | head -n 4 && unrar | head -n 2 | tail -n 1 && nginx -v
 
 # Put sources and other resources into container
-COPY ./configs /configs
 COPY ./src /app
-COPY ./www /var/www
-COPY ./docker-entrypoint.sh /docker-entrypoint.sh
+COPY ./docker /docker
+
+RUN \
+  mkdir -pv /data/mirror /data/keys \
+  && cp /docker/nod32mirror.conf /app/conf.d/nod32mirror.conf \
+  && mv /docker/docker-entrypoint.sh /docker-entrypoint.sh \
+  && chmod +x /docker-entrypoint.sh \
+  && rm -Rf /var/www \
+  && mv /docker/www /var/www \
+  && ls -la /var/www
 
 # Install crontab task
 RUN \
-  cp -fv /configs/crontab/crontab.conf /etc/cron.d/app \
+  cp -fv /docker/crontab.conf /etc/cron.d/app \
   && chmod 0644 /etc/cron.d/app \
   && crontab -u root /etc/cron.d/app \
   && crontab -l
 
 # Setup nginx
+RUN \
+  cp -fv /docker/nginx.conf /etc/nginx/nginx.conf
 
 # Make clear
-RUN apt-get -yq autoremove && apt-get -yq clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+#RUN apt-get -yq autoremove && apt-get -yq clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 WORKDIR /app
 

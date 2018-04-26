@@ -3,6 +3,7 @@
 *.log
 /tmp
 /temp
+/docker/data
 /.idea
 
 # OS trash files

@@ -1,10 +1,31 @@
 version: '2'
 
 services:
-  configs:
-    #image: tarampampam/nod32-update-mirror:latest
-    container_name: nod32mirror-crontab
+  data:
+    container_name: nod32mirror-data
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./docker/data/mirror:/data/mirror:rw
+      - ./docker/data/keys:/data/keys:rw
+
+  cron:
+    container_name: nod32mirror-cron
     build:
       context: .
       dockerfile: Dockerfile
     command: /usr/sbin/cron -f -L 15
+    volumes_from:
+      - data
+
+  nginx:
+    container_name: nod32mirror-nginx
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: nginx
+    ports:
+      - 8000:80
+    volumes_from:
+      - data

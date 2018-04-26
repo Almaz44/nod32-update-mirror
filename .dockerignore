@@ -1,7 +1,11 @@
 # Git
 .git
+.github
+docker/data
 **/.gitignore
 **/*.md
+LICENSE
+docker-compose.yml
 
 # Docker
 .dockerignore
