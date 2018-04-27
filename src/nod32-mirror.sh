@@ -21,7 +21,7 @@
 # THE SOFTWARE. 
 
 # Declare important variables
-export NOD32MIRROR_VERSION="1.0.1.8";
+export NOD32MIRROR_VERSION="1.0.2.0";
 [[ -z $NOD32MIRROR_BASE_DIR ]] && export NOD32MIRROR_BASE_DIR=$(dirname $(readlink -e $0));
 
 # Execute bootstrap script
@@ -241,3 +241,5 @@ This is free software. There is NO WARRANTY, to the extent permitted by law.
 };
 
 [ -d "$(fs_get_temp_directory)" ] && fs_remove_temp_directory;
+
+exit 0;

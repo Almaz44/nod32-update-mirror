@@ -20,9 +20,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE. 
 
-[[ -z $NOD32MIRROR_TEMP_DIR ]]            && export NOD32MIRROR_TEMP_DIR='/tmp';
-[[ -z $NOD32MIRROR_TEMP_DIRNAME ]]        && export NOD32MIRROR_TEMP_DIRNAME='nod32tmp';
-[[ -z $NOD32MIRROR_TIMESTAMP_FILE_NAME ]] && export NOD32MIRROR_TIMESTAMP_FILE_NAME='';
+export NOD32MIRROR_TEMP_DIR="${NOD32MIRROR_TEMP_DIR:-/tmp}";
+export NOD32MIRROR_TEMP_DIRNAME="${NOD32MIRROR_TEMP_DIRNAME:-nod32tmp}";
+export NOD32MIRROR_TIMESTAMP_FILE_NAME="${NOD32MIRROR_TEMP_DIRNAME:-}";
 
 # Create directory and test 'is writable?'
 function fs_create_directory() {
@@ -80,7 +80,7 @@ function fs_get_directory_size() {
   local path=$1; # Path to directory (string)
   local result=0;
   if system_application_exists 'du' && [ -d "$path" ]; then
-    result=$(du -hs "$mirror_dir" | tail -n 1 | awk '{print $1;}');
+    result=$(du -hs "$path" | tail -n 1 | awk '{print $1;}');
   fi;
   echo "$result";
 }

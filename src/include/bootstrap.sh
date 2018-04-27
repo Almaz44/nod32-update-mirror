@@ -21,8 +21,9 @@
 # THE SOFTWARE. 
 
 export LC_ALL=C;
-[[ -z $NOD32MIRROR_FORCE_YES ]]         && export NOD32MIRROR_FORCE_YES=0;
-[[ -z $NOD32MIRROR_EXTRA_CONFIGS_DIR ]] && export NOD32MIRROR_EXTRA_CONFIGS_DIR="$NOD32MIRROR_BASE_DIR/conf.d";
+
+export NOD32MIRROR_FORCE_YES="${NOD32MIRROR_FORCE_YES:-0}";
+export NOD32MIRROR_EXTRA_CONFIGS_DIR="${NOD32MIRROR_EXTRA_CONFIGS_DIR:-$NOD32MIRROR_BASE_DIR/conf.d}";
 
 function require() {
   source "$1" || { echo "[FATAL ERROR] $2 file '$1' not exists or contains errors" && exit 1; };

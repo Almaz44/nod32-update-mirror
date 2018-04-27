@@ -1,31 +1,42 @@
-version: '2'
+version: '3'
 
 services:
   data:
     container_name: nod32mirror-data
+    env_file:
+      - ./docker/environment.env
     build:
       context: .
       dockerfile: Dockerfile
+    command: /bin/bash -c "/app/nod32-mirror.sh --keys-update; /app/nod32-mirror.sh --update"
     volumes:
       - ./docker/data/mirror:/data/mirror:rw
       - ./docker/data/keys:/data/keys:rw
+      - ./docker/data/logs:/data/logs:rw
 
   cron:
     container_name: nod32mirror-cron
+    env_file:
+      - ./docker/environment.env
     build:
       context: .
       dockerfile: Dockerfile
     command: /usr/sbin/cron -f -L 15
-    volumes_from:
-      - data
+    volumes:
+      - ./docker/data/mirror:/data/mirror:rw
+      - ./docker/data/keys:/data/keys:rw
+      - ./docker/data/logs:/data/logs:rw
 
   nginx:
     container_name: nod32mirror-nginx
+    env_file:
+      - ./docker/environment.env
     build:
       context: .
       dockerfile: Dockerfile
     command: nginx
     ports:
       - 8000:80
-    volumes_from:
-      - data
+    volumes:
+      - ./docker/data/mirror:/data/mirror:rw
+      - ./docker/data/logs:/data/logs:rw
